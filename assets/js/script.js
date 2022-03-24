@@ -176,6 +176,61 @@ $("#task-form-modal .btn-primary").click(function() {
   }
 });
 
+// Makes cards sortable 
+$(".card .list-group").sortable({
+  // connects with other lists that have the same class name
+  connectWith: $(".card .list-group"),
+  scroll: false,
+  tolerance: "pointer",
+  helper: "clone",
+  activate: function(event) {
+    
+  },
+  deactivate: function(event) {
+    
+  },
+  over: function(event) {
+    
+  },
+  out: function(event) {
+    
+  },
+  update: function(event) {
+    // arry to store the task dat
+    var tempArr =[];
+
+    // loop over the current set of children in sortable list
+    $(this).children().each(function() {
+      
+      var text = $(this)
+        .find("p")
+        .text()
+        .trim();
+
+      var date = $(this)
+        .find("span")
+        .text()
+        .trim();
+
+      // add task data to the temo array as object
+      tempArr.push({
+        text: text,
+        date: date
+      });
+
+    });
+
+    // trim down list's Id to match object property
+    var arrName = $(this)
+      .attr("id")
+      .replace("list-", "");
+
+    // update array on tasks object and save
+    tasks[arrName] = tempArr;
+    saveTasks();
+  }
+});
+
 // remove all tasks
 $("#remove-tasks").on("click", function() {
   for (var key in tasks) {
